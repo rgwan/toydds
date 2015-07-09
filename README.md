@@ -1,4 +1,4 @@
-== It is a poor man's DDS synthesizer. ==
+= It is a poor man's DDS synthesizer. =
 
 * Use LGT8F08A AVR-core MCU to do this job
 
