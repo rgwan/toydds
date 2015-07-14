@@ -13,4 +13,6 @@
 #define Clr_Bit(val, bitn)    (val&=~(1<<(bitn)))
 #define Get_Bit(val, bitn)    (val &(1<<(bitn)) )
 
+#define nop()				asm("nop")
+
 #endif

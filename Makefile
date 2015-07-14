@@ -34,7 +34,7 @@ BIN := $(addsuffix .bin, $(ProjectName))
 
 CSRCS = main.c#C源代码
 ASMSRCS = #汇编源代码
-HDRS = sine.h sqr.h blp.h saw.h revsaw.h
+HDRS = sine.h sqr.h blp.h
 OBJS =  $(patsubst %.S,%.Os,$(ASMSRCS)) $(patsubst %.c,%.o,$(CSRCS))
 genASMOBJS = $(patsubst %.c,%.s,$(CSRCS)) $(patsubst %.c,%.i,$(CSRCS))
 
@@ -88,7 +88,7 @@ size:${ELF}
 	@avr-size -C --mcu=${MACHINE} ${ELF}
 	@echo "*****************************************************************************"
 	@./checksize $(ELF) $(FLASH_SIZE) $(MEM_SIZE)
-flash:$(BIN) 
+flash:all
 	avarice --program  --erase -v --file $(BIN) --part $(MACHINE)  --mkII -j usb  
 avarice:$(ELF)
 	avarice --program  --erase --file $(ELF) --part $(MACHINE) --mkII -j usb localhost:4242
@@ -100,12 +100,12 @@ ddd:gdb.conf
 gdb:gdb.conf
 	avr-gdb -x gdb.conf
 wavetable:wavegenerator
-	./wavegenerator sine 256 > sine.h
-	./wavegenerator triangle 256 > tri.h
-	./wavegenerator square 256 > sqr.h
-	./wavegenerator saw 256 > saw.h
-	./wavegenerator revsaw 256 > revsaw.h
-	./wavegenerator bioplar 256 > blp.h
+	./wavegenerator sine 1024 > sine.h
+	./wavegenerator triangle 1024 > tri.h
+	./wavegenerator square 1024 > sqr.h
+	#./wavegenerator saw 1024 > saw.h
+	#./wavegenerator revsaw 1024 > revsaw.h
+	./wavegenerator bioplar 1024 > blp.h
 help:
 	@echo "用 'make' 来编译"
 	@echo "用 'make clean' 全部清除"
