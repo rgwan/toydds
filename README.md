@@ -2,13 +2,13 @@
 
 * Use LGT8F08A AVR-core MCU to do this job
 
-* Samplerate up to 2.5MS/s, Bandwidth up to 280kHz(-3dB)
+* Samplerate up to 1.3MS/s, Bandwidth up to 280kHz(-3dB)
 
 * Internal WaveRom has Sine, Triangle, Square, Two Sawtooth, and Bioplar Wave.
 
-* All WaveRom section is aligned by 256bytes. So the deep of this device is 256pts :D
+* All WaveRom section is aligned by 1024bytes. So the deep of this device is 1Kpts :D
 
-* Pesudo Noise Generator Support
+* TODO:Pesudo Noise Generator Support
 
 * All Analog parts is easy to buy, and very cheap.
 
