@@ -33,11 +33,15 @@ static inline void hw_init()
  * wave is the DDS wave that the function will generate
  * acc[h-l] is the phase adder value.
  * The function typically require 1K-aligned 1K wave(1Kpts)
+ * If you want to stop the signal out, you have to Pull up the Stack Pointer! 
+ * and it will return to main()
  * The phase adder is 24+2bit length. By using r18 r19 r30 & r31[0-1]
- * fo = 
+ * fs = SysClock / cycles(12) = 1.3MS/s (typically)
+ * fo(MAX) = 1.3MS/s * 2^24 / 2^26
+ * fo(MIN&Resolution) = 1.3MS/s / 2^26
  * 
 */
-static inline void DDS_OUT(const unsigned char *wave, unsigned char acch, \
+static void DDS_OUT(const unsigned char *wave, unsigned char acch, \
 						unsigned char accm, unsigned char accl)
 {//Once call it will never return.Until the INT0 is being triggered.
 // The Z pointer will be automatically changed by the compiler
@@ -65,5 +69,5 @@ static inline void DDS_OUT(const unsigned char *wave, unsigned char acch, \
 int main()
 {
 	hw_init();
-	DDS_OUT(Sine_Table,0xff, 0xff, 0xff);
+	DDS_OUT(Square_Table,0x40, 0xff, 0xff);
 }
