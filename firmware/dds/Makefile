@@ -34,7 +34,7 @@ BIN := $(addsuffix .bin, $(ProjectName))
 
 CSRCS = main.c#C源代码
 ASMSRCS = #汇编源代码
-HDRS = sine.h sqr.h blp.h
+HDRS = sine.h blp.h tri.h
 OBJS =  $(patsubst %.S,%.Os,$(ASMSRCS)) $(patsubst %.c,%.o,$(CSRCS))
 genASMOBJS = $(patsubst %.c,%.s,$(CSRCS)) $(patsubst %.c,%.i,$(CSRCS))
 
