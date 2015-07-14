@@ -1,3 +1,8 @@
+/* Released at GPLv2
+ * Author Zhiyuan Wan
+ * E-mail: h@iloli.xyz
+ * Have fun!
+ */
 #include <avr/io.h>
 #include <avr/wdt.h>
 #include <avr/pgmspace.h> 
@@ -65,9 +70,50 @@ static void DDS_OUT(const unsigned char *wave, unsigned char acch, \
 							"r" (accl),"r" (accm),"r" (acch), "e" (wave)
 		);
 }
+/* This is a simple way to generate Sawtooth Wave, the WaveROM is not required
+ * r18,r19,r20 works as Phase_accumulator
+ * But if you use SawWave generator, the calculate expression of fout is little different. 
+ * This function generated samplerate up to 2.6MS/s */
+static void Syn_SawWave( unsigned char acch, unsigned char accm, \
+							unsigned char accl)
+{
+	asm volatile(	"eor r20, r20		"		"\n\t"	
+					"eor r18, r18 		;r18<-0"	"\n\t"
+					"eor r19, r19 		;r19<-0"	"\n\t" 
+					"1:"						"\n\t"
+					"out %0, r20		;1 cycle"	"\n\t"	
+					"add r18, %1		;1 cycle"			"\n\t"
+					"adc r19, %2		;1 cycle"			"\n\t"	
+					"adc r20, %3		;1 cycle"			"\n\t"
+					"rjmp 1b			;2 cycles, total 6cycles"	"\n\t"
+					:
+					:"I" ( _SFR_IO_ADDR(OUTPORT(DAC_PORT))),\
+							"r" (accl),"r" (accm),"r" (acch)
+		);
+					
+}
+static void Syn_RevSawWave( unsigned char acch, unsigned char accm, \
+							unsigned char accl)
+{
+	asm volatile(	"eor r20, r20		"		"\n\t"	
+					"eor r18, r18 		;r18<-0"	"\n\t"
+					"eor r19, r19 		;r19<-0"	"\n\t" 
+					"1:"						"\n\t"
+					"out %0, r20		;1 cycle"	"\n\t"	
+					"sub r18, %1		;1 cycle"			"\n\t"
+					"sbc r19, %2		;1 cycle"			"\n\t"	
+					"sbc r20, %3		;1 cycle"			"\n\t"
+					"rjmp 1b			;2 cycles, total 6cycles"	"\n\t"
+					:
+					:"I" ( _SFR_IO_ADDR(OUTPORT(DAC_PORT))),\
+							"r" (accl),"r" (accm),"r" (acch)
+		);
+					
+}
 
 int main()
 {
 	hw_init();
-	DDS_OUT(Square_Table,0x40, 0xff, 0xff);
+	Syn_SawWave(0x1, 0xff, 0xff);
+	//DDS_OUT(Sine_Table, 0x20, 0xff, 0xff);
 }
