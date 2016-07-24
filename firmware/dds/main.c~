@@ -63,7 +63,7 @@ static void DDS_OUT(const unsigned char *wave, unsigned char acch, \
 					"cpse r31, r21		;1/2 cycles"			"\n\t"
 					"jmp .+2		;2/0 cycles"					"\n\t"
 					"subi r31, 4		;0/1 cycles"		"\n\t"
-					"rjmp 1b		;1 cycles total 11 cycles"	"\n\t"
+					"rjmp 1b		;1 cycles total 10 cycles"	"\n\t"
 					:
 					:"I" ( _SFR_IO_ADDR(OUTPORT(DAC_PORT))),\
 							"r" (accl),"r" (accm),"r" (acch), "e" (wave)
